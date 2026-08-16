@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/*
+IMPECCABLE DIRECTION CONTRACT
+THESIS: A quiet, precise Operate dashboard for one person's daily match-scanning ritual - every number proves itself with the reasoning behind it, refusing the generic finance-dashboard's decorative-only charts.
+OWN-WORLD: near-black canvas (#0a0a0b), soft-bordered rounded cards (20-24px radius, #131316 on #0a0a0b), one confident blue (#3b82f6) for primary/home data, a calibrated five-hue set (blue/emerald/amber/violet/rose) reserved strictly for the outcome donut and status pills, system sans throughout, generous 24-32px card padding.
+STORY: the owner opens the dashboard, scans upcoming fixtures across the tracked competitions, sees at a glance which have predictions and their lean, clicks one and its full breakdown (probability donut, statistical factors, LLM reasoning) appears on the same screen without navigating away.
+FIRST VIEWPORT: icon rail; header with the app mark and fixture search; fixture list with mini probability bars beside a kickoff calendar; below, the selected fixture's AI analysis, probability donut, and match-factor panel update in place.
+FORM: reference finance-dashboard grammar (rounded cards, pill toggles, donut chart, calendar widget, icon rail) re-authored with real football-prediction content; brief-pinned by the user's reference image, no direction roll.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+*/
+
+:root {
+  --bg-canvas: #08080a;
+  --bg-surface: #121215;
+  --bg-surface-raised: #18181c;
+  --border-subtle: #232327;
+  --border-strong: #2e2e33;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #6b6b73;
+  --accent-blue: #3b82f6;
+  --accent-blue-soft: #60a5fa;
+  --accent-emerald: #22c55e;
+  --accent-amber: #f59e0b;
+  --accent-violet: #a78bfa;
+  --accent-rose: #fb7185;
+
+  /* Chart categorical palette (dataviz skill reference set, validated via
+     scripts/validate_palette.js against this project's --bg-surface
+     #121215: all pairs clear the CVD ΔE>=8 / normal-vision ΔE>=15 floors).
+     Distinct from the fixed blue/amber/rose used for the home/draw/away
+     outcome, which is a semantic 3-slot indicator, not a chart series. */
+  --chart-blue: #3987e5;
+  --chart-orange: #d95926;
+  --chart-aqua: #199e70;
+  --chart-yellow: #c98500;
+  --chart-magenta: #d55181;
+  --chart-green: #008300;
+  --chart-violet: #9085e9;
+  --chart-red: #e66767;
+  /* Sequential (single-hue) ramp for magnitude - scoreline heatmap */
+  --seq-blue-100: #cde2fb;
+  --seq-blue-200: #9ec5f4;
+  --seq-blue-300: #6da7ec;
+  --seq-blue-400: #3987e5;
+  --seq-blue-500: #256abf;
+  --seq-blue-600: #184f95;
+  --seq-blue-700: #0d366b;
+}
+
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-raised: var(--bg-surface-raised);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-soft: var(--accent-blue-soft);
+  --color-accent-emerald: var(--accent-emerald);
+  --color-accent-amber: var(--accent-amber);
+  --color-accent-violet: var(--accent-violet);
+  --color-accent-rose: var(--accent-rose);
+  --color-chart-blue: var(--chart-blue);
+  --color-chart-orange: var(--chart-orange);
+  --color-chart-aqua: var(--chart-aqua);
+  --color-chart-yellow: var(--chart-yellow);
+  --color-chart-magenta: var(--chart-magenta);
+  --color-chart-green: var(--chart-green);
+  --color-chart-violet: var(--chart-violet);
+  --color-chart-red: var(--chart-red);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+}
