@@ -41,7 +41,8 @@ export function Sidebar({ view, onViewChange, mobileNavOpen, onMobileNavOpenChan
     <>
       {/* Desktop/tablet icon rail */}
       <aside className="hidden w-20 shrink-0 flex-col items-center gap-6 border-r border-border-subtle py-6 sm:flex">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent-blue text-sm font-bold text-white">lp</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/icons/android-chrome-192x192.png" alt="lapredi" className="h-10 w-10 shrink-0 rounded-2xl object-cover" />
         {items.map((item) => (
           <button
             key={item.id}
@@ -68,7 +69,8 @@ export function Sidebar({ view, onViewChange, mobileNavOpen, onMobileNavOpenChan
           />
           <div className="relative flex h-full w-64 flex-col gap-2 border-r border-border-subtle bg-surface p-4">
             <div className="mb-4 flex items-center justify-between">
-              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-accent-blue text-sm font-bold text-white">lp</div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/android-chrome-192x192.png" alt="lapredi" className="h-9 w-9 shrink-0 rounded-2xl object-cover" />
               <button
                 type="button"
                 onClick={() => onMobileNavOpenChange(false)}
