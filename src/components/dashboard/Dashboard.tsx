@@ -53,7 +53,13 @@ export function Dashboard({ fixtures: initialFixtures }: DashboardProps) {
     setFixtures(initialFixtures);
   }
 
-  const firstWithPrediction = fixtures.find((f) => f.prediction) ?? fixtures[0] ?? null;
+  // Only ever auto-select from today onward - `fixtures` is sorted ascending
+  // by kickoff, so a plain "first fixture with a prediction" could (and did)
+  // land on a finished match from days ago just because it happened to be
+  // the earliest-scheduled fixture that already has a prediction.
+  const todayKey = dateKey(new Date().toISOString());
+  const upcoming = fixtures.filter((f) => dateKey(f.kickoff_at) >= todayKey);
+  const firstWithPrediction = upcoming.find((f) => f.prediction) ?? upcoming[0] ?? fixtures[0] ?? null;
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<FixtureFilter>("all");
@@ -123,6 +129,10 @@ export function Dashboard({ fixtures: initialFixtures }: DashboardProps) {
   const filtered = useMemo(() => {
     return fixtures.filter((f) => {
       if (sidebarView === "favorites" && !favorites.includes(f.id)) return false;
+      // Finished matches only show under "Predichos" (reviewing how a past
+      // prediction played out is useful); "Todos"/"Pendientes" are about
+      // what's coming up, not a growing pile of already-decided results.
+      if (filter !== "predicted" && f.status === "finished") return false;
       if (filter === "predicted" && !f.prediction) return false;
       if (filter === "pending" && f.prediction) return false;
       if (competitionFilter !== "all" && f.league_external_id !== competitionFilter) return false;
