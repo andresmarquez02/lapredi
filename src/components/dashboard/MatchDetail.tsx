@@ -8,6 +8,7 @@ import { AIAnalysisPanel } from "./AIAnalysisPanel";
 import { MatchFactorsPanel } from "./MatchFactorsPanel";
 import { NewsPanel } from "./NewsPanel";
 import { FormTrendChart } from "./charts/FormTrendChart";
+import { FormStrip } from "./FormStrip";
 import { LiveBadge } from "./LiveBadge";
 
 interface MatchDetailProps {
@@ -69,12 +70,21 @@ export function MatchDetail({ fixture, headerExtra }: MatchDetailProps) {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      {/* min-[1800px], not a stock Tailwind breakpoint: this panel sits
+          inside the dashboard's own split-view pane (30-40% of the viewport
+          taken by the fixture list), so a standard `lg`/`xl` here meant
+          splitting an already-narrowed share into thirds again - cramped
+          well before those normally "wide" viewport widths. Only subdivide
+          once there's genuinely enough room; below that, markets stack
+          full-width above AI analysis/factors instead of squeezing beside
+          them. Also affects the standalone /share/[id] page (full width
+          there), which just gets a bit more stacking room too. */}
+      <div className="match-detail-grid grid gap-6">
+        <div>
           <MarketBoard homeLabel={fixture.home_team?.name ?? "Home"} awayLabel={fixture.away_team?.name ?? "Away"} prediction={fixture.prediction} />
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-6">
           <AIAnalysisPanel reasoning={llmReasoning} unavailableReason={llmUnavailable} />
           <MatchFactorsPanel
             kickoff={fixture.kickoff_at}
@@ -94,6 +104,18 @@ export function MatchDetail({ fixture, headerExtra }: MatchDetailProps) {
         <div className="mt-6 rounded-3xl border border-border-subtle bg-surface p-6">
           <h3 className="mb-1 text-sm font-semibold text-text-primary">{t("formTrend")}</h3>
           <p className="mb-4 text-xs text-text-tertiary">{t("formTrendNote")}</p>
+
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:gap-8">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-text-tertiary">{fixture.home_team?.name ?? "Home"}</span>
+              <FormStrip results={fixture.home_team?.recentResults ?? []} size="md" />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-text-tertiary">{fixture.away_team?.name ?? "Away"}</span>
+              <FormStrip results={fixture.away_team?.recentResults ?? []} size="md" />
+            </div>
+          </div>
+
           <FormTrendChart
             homeLabel={fixture.home_team?.name ?? "Home"}
             awayLabel={fixture.away_team?.name ?? "Away"}

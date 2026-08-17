@@ -34,8 +34,12 @@ function getSnapshot(): string[] {
   return cached;
 }
 
+// Must be a stable reference: useSyncExternalStore compares snapshots by
+// identity, so a fresh `[]` literal on every call reads as "changed" every
+// render and throws "getServerSnapshot should be cached" / loops.
+const EMPTY_FAVORITES: string[] = [];
 function getServerSnapshot(): string[] {
-  return [];
+  return EMPTY_FAVORITES;
 }
 
 /** Fixture favorites, kept in localStorage - this app has no user accounts, so there's no server-side place to store them. */

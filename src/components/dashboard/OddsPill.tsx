@@ -1,3 +1,5 @@
+import { CountUp } from "@/components/CountUp";
+
 interface OddsPillProps {
   label: string;
   value: number; // 0-1
@@ -12,8 +14,8 @@ export function OddsPill({ label, value, variant }: OddsPillProps) {
       }`}
     >
       <span className={`text-xs ${variant === "leading" ? "text-accent-blue-soft" : "text-text-tertiary"}`}>{label}</span>
-      <span className={`text-base font-semibold ${variant === "leading" ? "text-text-primary" : "text-text-secondary"}`}>
-        {Math.round(value * 100)}%
+      <span className={`text-base font-semibold tabular-nums ${variant === "leading" ? "text-text-primary" : "text-text-secondary"}`}>
+        <CountUp value={value * 100} suffix="%" />
       </span>
     </div>
   );

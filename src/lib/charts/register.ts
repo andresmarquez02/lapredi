@@ -33,13 +33,15 @@ ChartJS.register(
   MatrixElement
 );
 
-// Shared dark-theme defaults, matching src/app/globals.css's design tokens.
+// Shared dark-theme defaults, matching src/app/globals.css's design tokens
+// (navy ramp - kept as raw hex here since Chart.js config isn't CSS and
+// can't read custom properties directly; update alongside globals.css).
 export const CHART_COLORS = {
   textPrimary: "#f4f4f5",
   textSecondary: "#a1a1aa",
   textTertiary: "#6b6b73",
-  gridline: "#232327",
-  surfaceRaised: "#18181c",
+  gridline: "#00141f",
+  surfaceRaised: "#00111a",
   blue: "#3987e5",
   orange: "#d95926",
   aqua: "#199e70",
@@ -52,8 +54,8 @@ export const CHART_COLORS = {
 
 export const baseTooltip: ChartOptions["plugins"] = {
   tooltip: {
-    backgroundColor: "#18181c",
-    borderColor: "#2e2e33",
+    backgroundColor: "#00111a",
+    borderColor: "#001824",
     borderWidth: 1,
     titleColor: "#f4f4f5",
     bodyColor: "#a1a1aa",

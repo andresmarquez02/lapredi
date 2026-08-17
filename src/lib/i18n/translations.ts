@@ -2,7 +2,7 @@ export type Language = "es" | "en";
 
 export const translations = {
   es: {
-    overview: "Resumen",
+    overview: "La-Predi",
     searchPlaceholder: "Buscar equipos…",
     upcomingFixtures: "Próximos partidos",
     tracked: "en seguimiento",
@@ -80,9 +80,14 @@ export const translations = {
     followRemove: "Dejar de seguir",
     followAdd: "Seguir",
     followEmptyTeams: "Escribe para buscar entre los equipos ya ingresados al sistema.",
+    win: "Victoria",
+    loss: "Derrota",
+    recentForm: "Forma reciente",
+    menu: "Menú",
+    backToList: "Volver a partidos",
   },
   en: {
-    overview: "Overview",
+    overview: "La-Predi",
     searchPlaceholder: "Search teams…",
     upcomingFixtures: "Upcoming Fixtures",
     tracked: "tracked",
@@ -160,6 +165,11 @@ export const translations = {
     followRemove: "Unfollow",
     followAdd: "Follow",
     followEmptyTeams: "Type to search among teams already ingested into the system.",
+    win: "Win",
+    loss: "Loss",
+    recentForm: "Recent form",
+    menu: "Menu",
+    backToList: "Back to fixtures",
   },
 } as const;
 

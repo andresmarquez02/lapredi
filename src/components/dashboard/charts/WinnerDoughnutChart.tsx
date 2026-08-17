@@ -24,7 +24,7 @@ export function WinnerDoughnutChart({ homeLabel, awayLabel, drawLabel, home, dra
             {
               data: [home, draw, away],
               backgroundColor: [CHART_COLORS.blue, CHART_COLORS.yellow, CHART_COLORS.red],
-              borderColor: "#121215",
+              borderColor: "#00070a",
               borderWidth: 3,
               hoverOffset: 6,
             },
@@ -38,8 +38,8 @@ export function WinnerDoughnutChart({ homeLabel, awayLabel, drawLabel, home, dra
           plugins: {
             legend: { display: false },
             tooltip: {
-              backgroundColor: "#18181c",
-              borderColor: "#2e2e33",
+              backgroundColor: "#00111a",
+              borderColor: "#001824",
               borderWidth: 1,
               titleColor: CHART_COLORS.textPrimary,
               bodyColor: CHART_COLORS.textSecondary,

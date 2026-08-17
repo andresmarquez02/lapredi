@@ -3,19 +3,50 @@
 /*
 IMPECCABLE DIRECTION CONTRACT
 THESIS: A quiet, precise Operate dashboard for one person's daily match-scanning ritual - every number proves itself with the reasoning behind it, refusing the generic finance-dashboard's decorative-only charts.
-OWN-WORLD: near-black canvas (#0a0a0b), soft-bordered rounded cards (20-24px radius, #131316 on #0a0a0b), one confident blue (#3b82f6) for primary/home data, a calibrated five-hue set (blue/emerald/amber/violet/rose) reserved strictly for the outcome donut and status pills, system sans throughout, generous 24-32px card padding.
+OWN-WORLD: deep-ocean navy canvas (#000e14, brief-pinned ink-black/deep-space-blue/yale-blue ramp), soft-bordered rounded cards (20-24px radius) one step up from canvas, one confident blue (#3b82f6) for primary/home data, a calibrated five-hue set (blue/emerald/amber/violet/rose) reserved strictly for the outcome donut and status pills, system sans throughout, generous 24-32px card padding.
 STORY: the owner opens the dashboard, scans upcoming fixtures across the tracked competitions, sees at a glance which have predictions and their lean, clicks one and its full breakdown (probability donut, statistical factors, LLM reasoning) appears on the same screen without navigating away.
 FIRST VIEWPORT: icon rail; header with the app mark and fixture search; fixture list with mini probability bars beside a kickoff calendar; below, the selected fixture's AI analysis, probability donut, and match-factor panel update in place.
-FORM: reference finance-dashboard grammar (rounded cards, pill toggles, donut chart, calendar widget, icon rail) re-authored with real football-prediction content; brief-pinned by the user's reference image, no direction roll.
+FORM: reference finance-dashboard grammar (rounded cards, pill toggles, donut chart, calendar widget, icon rail) re-authored with real football-prediction content; brief-pinned by the user's reference image and, as of the navy palette pass, the user's own ink-black/deep-space-blue/yale-blue swatch set.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 */
 
 :root {
-  --bg-canvas: #08080a;
-  --bg-surface: #121215;
-  --bg-surface-raised: #18181c;
-  --border-subtle: #232327;
-  --border-strong: #2e2e33;
+  /* Brief-pinned navy ramp (user-supplied swatch set) - primitives, remapped
+     to semantic roles below rather than used directly in components.
+     --true-black/--near-black extend the ramp one and a half steps darker
+     than --ink-black, following the same step deltas (~R+0/G+3/B+5), added
+     2026-08-16 when "más negro" was asked a third time and the ink-black
+     family alone (already at the bottom of the given swatches) wasn't
+     enough room to go further. */
+  --true-black: #060606; /* neutral gray, not navy-tinted - pure #000000 read as too stark/dead once everything else darkened */
+  --near-black: #00070a;
+  --ink-black: #000e14;
+  --ink-black-2: #00111a;
+  --ink-black-3: #00141f;
+  --ink-black-4: #001824;
+  --ink-black-5: #001b29;
+  --deep-space-blue: #002233;
+  --deep-space-blue-2: #00293d;
+  --deep-space-blue-3: #003047;
+  --deep-space-blue-4: #003652;
+  --yale-blue: #003d5c;
+
+  /* Darkened three times on 2026-08-16 (each pass: "still too much color /
+     más negro"). This pass slides every role down into what used to be a
+     darker neighbor's slot, anchored on the two new near-black primitives
+     above - --deep-space-blue and --yale-blue are now unused by the base UI
+     entirely, kept only as the (still brief-pinned) upper end of the ramp
+     for any future lighter/emphasis need. */
+  --bg-canvas: var(--true-black);
+  --bg-canvas-gradient: linear-gradient(180deg, var(--true-black) 0%, var(--near-black) 45%, var(--ink-black) 100%);
+  --bg-surface: var(--near-black);
+  /* One step up from --bg-surface: gives repeated list rows (fixture cards)
+     a fill distinct from both their parent card and the raised hover/active
+     state, without a second border layer - see FixtureListCard. */
+  --bg-surface-sunken: var(--ink-black);
+  --bg-surface-raised: var(--ink-black-2);
+  --border-subtle: var(--ink-black-3);
+  --border-strong: var(--ink-black-4);
   --text-primary: #f4f4f5;
   --text-secondary: #a1a1aa;
   --text-tertiary: #6b6b73;
@@ -52,6 +83,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 @theme inline {
   --color-canvas: var(--bg-canvas);
   --color-surface: var(--bg-surface);
+  --color-surface-sunken: var(--bg-surface-sunken);
   --color-surface-raised: var(--bg-surface-raised);
   --color-border-subtle: var(--border-subtle);
   --color-border-strong: var(--border-strong);
@@ -81,6 +113,88 @@ html {
 }
 
 body {
-  background: var(--bg-canvas);
+  background: var(--bg-canvas-gradient);
+  background-attachment: fixed;
   color: var(--text-primary);
+}
+
+/* Applied to the two independently-scrolling panes in the desktop split-view
+   (fixture list+calendar, match detail) - default OS scrollbars read as an
+   unstyled system element against this dark UI. Firefox via scrollbar-width/
+   -color, Chromium/Safari via the ::-webkit-scrollbar pseudo-elements. */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-blue-soft);
+}
+
+/* Dashboard's outer split-view column ratio: plain hand-written media
+   queries, not Tailwind's `lg:`/`min-[1600px]:` utility classes. Tailwind v4
+   doesn't interleave an arbitrary breakpoint like `min-[1600px]:` into the
+   same cascade position its pixel value implies relative to named
+   breakpoints (`lg` = 1024px) - it emitted `min-[1600px]:grid-cols-[30%_70%]`
+   *before* `lg:grid-cols-[40%_60%]` in the compiled stylesheet, so at 1600px+
+   the later (`lg:`) rule kept winning the cascade and 30/70 never applied.
+   Source order below is correct by construction, not by hoping a bundler
+   sorts arbitrary variants numerically.
+
+   1600px matches .match-detail-grid's own breakpoint below on purpose: while
+   the detail pane's markets/AI-analysis panel is still a single column (below
+   1600px), the list gives up some of its own share (40/60) so the detail
+   pane isn't fighting for room on two fronts; once the detail pane earns a
+   second internal column (1600px+), the outer ratio can afford to favor it
+   more (30/70) since it's no longer the tightest thing on screen. */
+.split-view-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .split-view-grid {
+    grid-template-columns: 40% 60%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .split-view-grid {
+    grid-template-columns: 30% 70%;
+  }
+}
+
+/* MatchDetail's internal markets/AI-analysis split - same reasoning as
+   .split-view-grid above (hand-written media queries, not a Tailwind
+   arbitrary breakpoint). */
+.match-detail-grid {
+  grid-template-columns: 1fr;
+}
+
+.match-detail-grid > :first-child {
+  grid-column: span 1 / span 1;
+}
+
+@media (min-width: 1600px) {
+  .match-detail-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .match-detail-grid > :first-child {
+    grid-column: span 2 / span 2;
+  }
 }

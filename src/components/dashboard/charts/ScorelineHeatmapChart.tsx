@@ -58,8 +58,8 @@ export function ScorelineHeatmapChart({ grid, homeLabel, awayLabel }: ScorelineH
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: "#18181c",
-        borderColor: "#2e2e33",
+        backgroundColor: "#00111a",
+        borderColor: "#001824",
         borderWidth: 1,
         titleColor: CHART_COLORS.textPrimary,
         bodyColor: CHART_COLORS.textSecondary,
